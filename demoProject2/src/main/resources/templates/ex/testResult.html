@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PathVariable 테스트</title>
+</head>
+<body>
+  <h1>PathVariable 테스트중</h1>
+
+  <!-- 빈칸의 이름인 number 작성해야 함 -->
+   <!-- PathVariable로 얻어온 값 html에서 사용하는 방법
+    -> ${매개변수명 아니라 주소 빈칸 지정부분에서 설정한 이름} == ${주소{내부에 작성한 이름}}
+    예 ) /ex3/{number} -> ${number} -->
+  <h1 th:text="|@PathVariable로 얻어온 값 : ${number}|"></h1>
+</body>
+</html>

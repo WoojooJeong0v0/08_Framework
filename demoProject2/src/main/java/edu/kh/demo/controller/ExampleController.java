@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -135,6 +136,75 @@ public class ExampleController {
 	} // ex2 end
 	
 	
+	
+	/**
+	 * 
+	 * @param model : Spring 에서 전달하는 용도의 객체 (request)
+	 * @return
+	 */
+	@GetMapping("ex3")
+	public String ex3(Model model) {
+		
+		model.addAttribute("boardNo", 10);
+		model.addAttribute("key", "제목");
+		model.addAttribute("query", "검색어");
+		
+		return "ex/result3";
+	} // ex3 end
+	
+	
+	/*
+	 * @PathVariable
+	 * - 주소 중 일 부분을 변수 값처럼 사용할 수 있다
+	 *  -> 해당 어노테이션으로 얻어온 값은
+	 *  현재 메서드 + forward한 html 파일에서 사용 가능함
+	 */
+	
+	// 맨 앞에 / 써도 실행되는데 리눅스 환경에서 실행 안 되니 빼는 걸 권장
+	// 빈칸을 {} 로 뚫어 놓고 이름을 직접 지정해야 함
+	// -> 주소 중 값을 얻어오고 싶은 부분을 {}로 작성하고
+	// {} 지칭하는 이름(변수명) 내부에 작성한다!
+	
+	// 주소의 길이가 짧아져서 활용도가 높고 쿼리스트링과 별개로 용도 지정 가능
+	@GetMapping("ex3/{number}")
+	public String pathVarialbeTest(
+				@PathVariable("number") int num // 주소 중 number를 가져와서 int num에 저장하겠다, 를 매개변수에 넣기
+			) {
+		
+		log.debug("num : {}", num);
+		
+		
+		return "ex/testResult";
+	} // ex3
+	
+	@GetMapping("ex4")
+	public String ex4(Model model) {
+		
+		Student std = new Student("3333", "맹구", 5, null);
+		
+		model.addAttribute("std", std);
+		model.addAttribute("num", 100);
+		
+		return "ex/result4";
+	} // ex4 end
+	
+	
+	@GetMapping("ex5")
+	public String ex5(Model model) {
+		
+		model.addAttribute("message", "서버에서 전달된 메시지");
+		model.addAttribute("num", 12345);
+		
+		Student std = new Student();
+		std.setStudentNo("6789");
+		model.addAttribute("std", std);
+		
+		model.addAttribute("start", 0);
+		model.addAttribute("end", 7);
+		
+		
+		return "ex/result5";
+	}
 
 	
 } // class end
