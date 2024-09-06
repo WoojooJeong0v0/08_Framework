@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>사용자 추가</title>
+  <style>
+    table *{
+      padding: 3px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 같은 주소라도 전달 방식 다르면 사용 가능 -->
+
+  <h1>사용자 추가</h1>
+  <form action="/user/insert" method="post">
+    <table>
+      <tr>
+        <th>ID</th>
+        <td><input type="text" name="userId"></td>
+      </tr>
+      <tr>
+        <th>PW</th>
+        <td><input type="password" name="userPw"></td>
+      </tr>
+      <tr>
+        <th>NAME</th>
+        <td><input type="text" name="userName"></td>
+      </tr>
+
+    </table>
+
+    <button>추가하기</button>
+  </form>
+</body>
+</html>

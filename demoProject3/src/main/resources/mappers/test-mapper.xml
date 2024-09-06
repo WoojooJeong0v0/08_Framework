@@ -3,18 +3,117 @@
 
 <!-- 연결할 Mapper 인터페이스 파일 경로 작성 (필수) -->
 <mapper namespace="edu.kh.demo.mapper.TestMapper">
-<!-- interface랑 연결된 거니까 꼭 잘 작성해야 함!! -->
+<!-- interface 랑 연결된 거니까 꼭 잘 작성해야 함!! -->
 
 <!-- 해당 태그는 무조건 삭제!! -->
 <!--<cache-ref namespace=""/>-->
 <!-- 수행 하려는 SQL 구문 태그 작성-->
 
+	<!-- 공통 설명 -->
+	<!-- 
+	
+		**<select> 태그에서 사용할 수 있는 속성**
+		- parameterType : 전달 받은 "값"의 자료형 
+		
+		- resultType : 조회된 결과 "행"의 자료형
+		
+		(중요!!)
+		자료형 작성 시
+		- 기본 자료형 : mybatis 제공 별칭으로 작성
+		
+		- 참조형(클래스) : 
+			mybatis 제공 별칭
+			또는
+			패키지명 + 클래스명
+			또는
+			사용자 지정 별칭
+			(3개 중 하나로 작성!)
+	 -->
+	 
+	 <!-- 
+	 	** <insert>, <update>, <delete> 태그에서 사용할 수 있는 속성 **
+	 	- parameterType : 전달 받은 "값"의 자료형
+	 	- resultType 없음!!!
+	 	 -> 왜 ? 결과가 무조건 int 타입이니까 (안 적어도 암묵적으로 int)
+	  -->
+
+
 	<!-- 사용자 이름 조회 -->
-	<!-- 정확하게 쓰려면 ,int 앞에 _ 넣고, string은 소문자로만 -->
+	<!-- 정확하게 쓰려면 int 앞에 _ 넣고, string은 소문자로만 -->
+	<!-- 플레이스홀더를 쓰고 거기에 들어가는 자료형을 적어야 하는데 #{} 으로 두 개 동시에 할 수 있다 -->
 	<select id="selectUserName" parameterType="_int" resultType="string">
 		SELECT USER_NAME
 		FROM TB_USER
 		WHERE USER_NO = #{userNo}
 	</select>
+	
+	
+	<!-- mybatis는 조회된 컬럼명과
+		결과를 담으려는 DTO 필드명이 같을 경우
+		자동으로 값을 담아줄 수 있다!!!
+		
+		그런데... USER_NO    userNo는 형태가 달라서
+		자동으로 담을 수 없는 상태지만
+		mybatis-config.xml에 작성된
+		mapUnderscoreToCamelCase 문구 덕분에 가능해짐!!
+	 -->
+	<!-- 사용자 전체 조회 -->
+	<select id="selectAll" resultType="edu.kh.demo.dto.UserDto">
+	SELECT
+		USER_NO,
+		USER_ID,
+		USER_PW,
+		USER_NAME,
+		TO_CHAR(ENROLL_DATE, 'YYYY"년" MM"월" DD"일"') ENROLL_DATE
+	FROM TB_USER
+	ORDER BY USER_NO ASC
+	</select>
+	
+	
+	<!-- userNo가 일치하는 사용자 조회 -->
+	<!-- resultType 별칭 지정하기 -->
+	<select id="selectUser" parameterType="_int" resultType="UserDto"> 
+	<!-- resultType 으로 마이바티스(DBConfig 참고)에서 설정한 별칭 사용함!! -->
+		SELECT
+		USER_NO,
+		USER_ID,
+		USER_PW,
+		USER_NAME,
+		TO_CHAR(ENROLL_DATE, 'YYYY"년" MM"월" DD"일"') ENROLL_DATE
+	FROM TB_USER
+	WHERE USER_NO = #{userNo}
+	</select>
+	
+	
+	<!-- 사용자 정보 수정
+	id와 메서드명 동일하게 -->
+	<update id="updateUser" parameterType="UserDto">
+	<!-- parameterType="UserDto" 마이바티스(DBConfig 참고)에서 설정한 별칭 사용함!!
+	
+		- 전달 받은 파라미터가 DTO 또는 map인 경우
+			-> SQL에 필드명 또는 key 값을 작성하면 된다!! -->
+		UPDATE TB_USER
+		SET
+			USER_PW = #{userPw},
+			USER_NAME = #{userName}
+		WHERE
+			USER_NO = #{userNo}
+	</update>
+	
+	
+	<!-- 사용자 삭제 -->
+	<delete id="deleteUser" parameterType="_int">
+		DELETE
+		FROM TB_USER
+		WHERE USER_NO = #{userNo}
+	</delete>
+	
+	
+	<!-- 유저 추가 -->
+	<insert id="insertUser" parameterType="UserDto">
+	INSERT INTO TB_USER
+	VALUES(SEQ_USER_NO.NEXTVAL, #{userId}, #{userPw}, #{userName}, default)
+	</insert>
+	
 
 </mapper>

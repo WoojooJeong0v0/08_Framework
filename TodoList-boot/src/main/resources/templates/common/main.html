@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TodoList</title>
+  <style>
+  thead th{
+    padding: 5px;
+    background-color: rgb(125, 118, 138);
+    color: white;
+  }
+
+  tbody th{
+    color: rgb(87, 87, 97);
+  }
+
+  table tr:nth-child(even){background:rgb(226, 234, 255);}
+
+  table td{
+    padding: 3px;
+  }
+
+  .container{
+    display: flex;
+  }
+
+  #cat{
+    transform: translateX(10px);
+  }
+  </style>
+</head>
+<body>
+  <h1>TodoList</h1>
+
+  <table>
+    <tr>
+      <th>전체 Todo 개수 <th:block th:text="${#lists.size(todoList)}"></th:block> </th>
+      <td> <img src="https://cdn.pixabay.com/photo/2016/10/18/19/42/abstract-1751204_1280.png" width="35px" height="35px"></td>
+      <th>완료된 Todo 개수 [[${completeCount}]]</th>
+    </tr>
+  </table>
+
+  <div class="container">
+    <img src="https://cdn.pixabay.com/photo/2024/03/08/01/30/cat-8619611_1280.png" height="150px" width="150px" id="cat">
+  
+    <table id="todoList" border="1" style="border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th>번호</th>
+          <th>할 일 제목</th>
+          <th>완료 여부</th>
+          <th>등록 날짜</th>
+        </tr>
+      </thead>
+    
+      <tbody>
+        <th:block th:each="todo:${todoList}" th:object="${todo}">
+          <tr>
+            <th th:text="*{todoNo}"></th>
+            <td><a th:href="@{/todo/todoContent/{todoNo}(todoNo=*{todoNo})}" th:text="*{todoSub}"></a></td>
+            <th th:text="*{todoCompl}"></th>
+            <td th:text="*{todoDate}"></td>
+          </tr>
+        </th:block>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
