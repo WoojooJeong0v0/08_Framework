@@ -28,23 +28,74 @@
   #cat{
     transform: translateX(10px);
   }
+
+  @font-face {
+    font-family: 'RixXladywatermelonR';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-4@1.0/RixXladywatermelonR.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{ font-family: 'RixXladywatermelonR';}
+
+a {
+  color: rgb(155, 103, 168);
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+td, th {
+  text-align : center;
+  vertical-align : middle;
+}
+
+.tdRight{
+  vertical-align : right;
+}
+
+.w-btn-skin {
+    background-color: #eadbf0;
+    color: #6e6e6e;
+}
+
+.w-btn {
+    position: relative;
+    border: none;
+    display: inline-block;
+    padding: 5px 5px;
+    border-radius: 15px;
+    font-family: "paybooc-Light", sans-serif;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
   </style>
 </head>
 <body>
   <h1>TodoList</h1>
 
-  <table>
+  <table width="692px">
     <tr>
-      <th>전체 Todo 개수 <th:block th:text="${#lists.size(todoList)}"></th:block> </th>
+      <th>전체 Todo <font color="#C8A1E0" size="6pt"> <th:block th:text="${#lists.size(todoList)}"></th:block></font> </th>
       <td> <img src="https://cdn.pixabay.com/photo/2016/10/18/19/42/abstract-1751204_1280.png" width="35px" height="35px"></td>
-      <th>완료된 Todo 개수 [[${completeCount}]]</th>
+      <th>완료된 Todo <font color="#C8A1E0" size="6pt">[[${completeCount}]]</font></th>
+      <td class="tdRight">
+        <button class="w-btn w-btn-skin" type="button">
+        WRITE TODO </button></td>
+      <td class="tdRight"><input type="text" value="search"></td>
     </tr>
   </table>
 
-  <div class="container">
+  <div class="container" width="1200px">
     <img src="https://cdn.pixabay.com/photo/2024/03/08/01/30/cat-8619611_1280.png" height="150px" width="150px" id="cat">
   
-    <table id="todoList" border="1" style="border-collapse: collapse;">
+    <table id="todoList" border="1" style="border-collapse: collapse;" width="500px">
       <thead>
         <tr>
           <th>번호</th>

@@ -6,7 +6,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.todolist.dto.Todo;
 import edu.kh.todolist.service.TodoListService;
@@ -34,4 +37,31 @@ public class MainController {
 		return "common/main";
 	}
 	
-}
+	@GetMapping("/todoWrite")
+	public String todoWrite(
+			@ModelAttribute Todo todo,
+			RedirectAttributes ra) {
+		
+		int result = service.todoWrite();
+		
+		String path = null;
+		String message = null;
+		
+		if(result>0) {
+			path = "redirect:/user/selectAll";
+			message = todo.getTodoSub() + "  추가 되었습니다";
+		} else {
+			path = "redirect:/user/insert";
+			message = "추가 실패 ㅠㅠ";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return path;
+	}
+	
+	
+	
+	
+	
+} // end
