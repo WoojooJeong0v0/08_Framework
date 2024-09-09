@@ -75,5 +75,14 @@
 	FROM TO_DO
 	WHERE TODO_NO = #{todoNo}
 	</delete>
+	
+	
+	<!-- 제목검색 -->
+	<select id="searchTitle" parameterType="_int" resultType="string">
+		SELECT 
+			TODO_SUB
+		FROM TO_DO
+		WHERE TODO_NO = #{todoNo}
+	</select>
 
 </mapper>

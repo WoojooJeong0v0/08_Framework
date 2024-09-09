@@ -1,0 +1,56 @@
+div{
+  margin: 10px 0;
+}
+
+.complete > span {
+  font-weight: bold;
+}
+
+
+
+.green { color : hsl(268, 37%, 56%) }
+
+.red {  color : #fddd98  }
+
+.content{
+  border: 2px solid #ccc;
+  padding: 10px;
+  width: 480px;
+  min-height: 300px;
+
+  background-image: url(https://cdn.pixabay.com/photo/2014/04/03/00/42/footprints-309158_1280.png);
+  background-size: cover;
+
+  /* 내부 내용을 pre 태그처럼
+    html에 작성된 그대로 출력해! */
+  white-space: pre-wrap;
+}
+
+.btn-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 500px;
+  /* 처음과 끝 요소는 끝에 붙고 중간은 적절하게 */
+}
+
+.w-btn-skin {
+  background-color: #eadbf0;
+  color: #6e6e6e;
+}
+
+.w-btn {
+  position: relative;
+  border: none;
+  display: inline-block;
+  padding: 5px 5px;
+  border-radius: 15px;
+  font-family: "paybooc-Light", sans-serif;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.w-btn-skin:hover{
+background-color: #ffffe2;
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>todo 작성 페이지</title>
+  <link rel="stylesheet" href="/css/detail.css">
+</head>
+<body>
+  <h1>할 일 추가</h1>
+  <!-- form 태그 요청은 무조건 동기식!!! 
+   요청 후 깜박임 후에 화면 바뀜 == 새로고침 == 갱신 -->
+  <div>
+    <div>
+      제목 <input type="text" id="todoSub">
+    </div>
+    <div>
+      <textarea id="todoContent" rows="3" cols="50" placeholder="상세 내용"></textarea>
+    </div>
+
+    <button class="w-btn w-btn-skin" id="addBtn">추가</button> 
+    <button class="w-btn w-btn-skin" type="button" id="goToList">돌아가기</button>
+  <!-- button 기본 타입이 submit(제출) 로 되어 있음,
+   submit 되는 건 하나니까 그냥 다른 버튼으로 하고 싶으면
+   type을 button으로 넣도록 함 -->
+  </div>
+  
+  <th:block th:replace="~{common/footer}"></th:block>
+
+  <script>
+    document.querySelector("#goToList").addEventListener("click", () => location.href="/");
+  </script>
+  
+  <script src="/js/main.js"></script>
+  
+</body>
+</html>

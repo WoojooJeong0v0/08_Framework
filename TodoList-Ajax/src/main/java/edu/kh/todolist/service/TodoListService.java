@@ -51,6 +51,14 @@ public interface TodoListService {
 	int todoDelete(int todoNo);
 
 	
+	/**
+	 * 
+	 * @param todoNo
+	 * @return
+	 */
+	String searchTitle(int todoNo);
+
+	
 
 
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>할일 수정</title>
+  <link rel="stylesheet" href="/css/detail.css">
+</head>
+<body>
+  <h3>할일 수정</h3>
+
+  <form action="/todo/edit" method="post">
+    <div>
+      제목 <input type="text" name="todoSub" th:value="${todo.todoSub}">
+    </div>
+    <div>
+      <textarea name="todoContent" rows="3" cols="50" placeholder="상세 내용" th:text="${todo.todoContent}"></textarea>
+      <!-- textarea는 시작 태그있고 종료 태그가 있으므로 value가 아니라 th:text로 작성해야 함 -->
+    </div>
+
+    <input type="hidden" name="todoNo" th:value="${todo.todoNo}">
+    <!-- 몇 번 글을 수정하는 건지 숨겨 놓기 -->
+    <button class="w-btn w-btn-skin">수정</button> 
+    <button class="w-btn w-btn-skin" type="button" id="goToList">돌아가기</button>
+  <!-- button 기본 타입이 submit(제출) 로 되어 있음,
+   submit 되는 건 하나니까 그냥 다른 버튼으로 하고 싶으면
+   type을 button으로 넣도록 함 -->
+  </form> 
+
+
+  <script src="/js/detail.js"></script>
+</body>
+</html>
