@@ -1,0 +1,178 @@
+#popupLayer{
+  width: 420px;
+  height: 400px;
+  overflow: auto;
+  border: 1px solid rgb(184, 184, 255);;
+  border-radius: 15px;
+  background-color: white;
+  
+  position: fixed; /* 브라우저에서 위치 고정 */
+
+  /* 브라우저 정가운데 배치 */
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* popup layer 행 */
+.popup-row{
+  padding: 10px;
+  margin: 10px;
+  border-bottom: 0.3px solid rgb(202, 202, 202);
+ 
+  /* 위치의 상대적 기준점 */
+  position : relative;
+  
+  width: 90%;
+}
+
+
+/* popup layer 숨기기/보이기 */
+.popup-hidden{ display: none !important; }
+
+
+/* x 버튼 */
+#popupClose{
+
+  /* 절대적인 위치 지정(기준 내에서 아무곳에나 배치 가능) */
+  position: absolute; 
+
+  top: 0px;   /* 위쪽으로    부터 0px 떨어진 위치 */
+  right: 10px; /* 오른쪽으로 부터 10px 떨어진 위치 */
+
+  font-size: 30px;
+  font-weight: bold;
+
+  user-select: none; /* 드래그 방지 */
+
+  cursor: pointer; /* 커서 손가락 모양 */
+}
+
+#popupClose:hover{ color :rgb(185, 185, 185); }
+
+#popupClose:active{ color : rgb(204, 142, 255); }
+
+
+/* 버튼 영역 */
+.btn-container{
+  flex-grow: 1; /* 중심축 방향으로 팽창 */
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin: 15px;
+}
+
+.btn-container > button{ margin: 5px;}
+
+
+
+/* ----------------------------------------------------- */
+
+/* 수정 팝업 레이어 */
+#updateLayer{
+  width: 400px;
+  height: 250px;
+  border: 1px solid rgb(184, 184, 255);
+  border-radius: 15px;
+  background-color: white;
+
+  position: fixed; /* 브라우저에서 위치 고정 */
+
+  /* 브라우저 정가운데 배치 */
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+#updateTitle{ width: 300px; }
+
+/* 추가 팝업 레이어 */
+#addLayer{
+  width: 400px;
+  height: 250px;
+  border: 1px solid rgb(184, 184, 255);
+  border-radius: 15px;
+  background-color: white;
+
+  position: fixed; /* 브라우저에서 위치 고정 */
+
+  /* 브라우저 정가운데 배치 */
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+#addTitle{ width: 300px; }
+
+
+.w-btn-skin {
+  background-color: #eadbf0;
+  color: #6e6e6e;
+}
+
+.w-btn {
+  position: relative;
+  border: none;
+  display: inline-block;
+  padding: 5px 5px;
+  border-radius: 15px;
+  font-family: "paybooc-Light", sans-serif;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.w-btn-skin:hover{
+background-color: #ffffe2;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;  /* 스크롤바의 너비 */
+}
+
+body::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #cfcfcf; /* 스크롤바의 색상 */
+  
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
+}
+
+#popupLayer::-webkit-scrollbar {
+  width: 8px;  /* 스크롤바의 너비 */
+}
+
+#popupLayer::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #cfcfcf; /* 스크롤바의 색상 */
+  
+  border-radius: 10px;
+}
+
+#popupLayer::-webkit-scrollbar-track {
+  background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
+}
