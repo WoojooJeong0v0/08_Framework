@@ -29,7 +29,8 @@ public class UserController {
 	
 	/**
 	 * 사용자 번호 입력 받아 일치하는 사용자 이름 조회
-	 * @param userNo : 제출된 파라미터 중 key값 "userNo"인 값
+	 * @param userNo : 제출된 파라미터 중 key값 "userNo"인 값 (단일 값)
+	 * 여러 개 받아올 때에는 @ModelAttribute 이용 (생략가능하고 DTO 이어서 작성하기)
 	 * @param model : Spring에서 사용하는 데이터 전달용 객체
 	 * @return
 	 */

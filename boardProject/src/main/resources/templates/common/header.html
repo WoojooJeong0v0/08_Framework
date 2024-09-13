@@ -36,8 +36,38 @@
   </section>
 
 
-  <!-- 안쓰는 섹션 -->
-  <section></section>
+   <!-- 로그인 상태 유무 확인 -->
+  <section>
+    <!-- 우측상단 로그인/드롭다운 메뉴 -->
+     <div class="header-top-menu">
+      <!-- 로그인이 되어있지 않을 경우 -->
+       <!-- unless 는 false 인 경우 실행 -->
+       <th:block th:unless= "${session.loginMember}">
+        <a href="/">메인 페이지</a>
+        |
+        <a href="/member/login">로그인</a>
+       </th:block>
+
+      <!-- 로그인 O -->
+      <th:block th:if="${session.loginMember}">
+
+      <label for="headerMenuToggle">
+        [[${session.loginMember.memberNickname}]]
+
+        <i class="fa-solid fa-caret-down"></i>
+      </label>
+
+      <input type="checkbox" id="headerMenuToggle">
+
+      <div class="header-menu">
+        <a href="#">내정보</a>
+        <a href="/member/logout">로그아웃</a>
+      </div>
+
+      </th:block>
+
+     </div>
+  </section>
 
 
 </header>
