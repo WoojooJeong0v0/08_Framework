@@ -6,16 +6,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.project.member.dto.Member;
 import edu.kh.project.myPage.service.MyPageService;
 import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.GetProxy;
 
 // Session Attributes 사용법
 // 1. Model 을 이용하여 값을  Request scope 에서 Session scope 로 변경
@@ -139,5 +142,105 @@ public class MypagerController {
 	// 컨트롤러에서는 타임리프 접두사, 접미사가 자동으로 붙는다
 	// 1이나 0을 그대로 가져와야 함
 	// 를 하려면 위에 @ResponseBody 붙임
+	
+	
+	// 비밀번호 변경 화면으로 전환하는 용도
+	@GetMapping("changePw")
+	public String changePw() {
+		
+		
+		// 접두사 : classpath:/templates/
+		// 접미사 : .html
+		return "myPage/myPage-changePw";
+	}
+	
+	
+	/**
+	 * 실제 비밀번호 변경 수행하는 용도
+	 * @param currentPw : 현재 비밀번호 (보안요소)
+	 * @param newPw : 변경하는 새 비밀번호
+	 * @param loginMember : 세션에서 얻어온 로그인한 회원 정보
+	 * @return
+	 */
+	@PostMapping("changePw")
+	public String changePw(
+			@RequestParam("currentPw") String currentPw,
+			@RequestParam("newPw") String newPw,
+			@SessionAttribute("loginMember") Member loginMember,
+			RedirectAttributes ra // 리다이렉트 후 1회성 사용하고 싶은 데이터가 있다면 사용
+			) {
+		
+		//서비스 호출 후 결과 반환 받기
+		int result = service.changePw(currentPw, newPw, loginMember);
+		
+		String message = null;
+		String path = null;
+		
+		// 결과에 따른 응답 제어
+		if(result > 0) {
+			message = "비밀번호 변경 되었습니다";
+			path = "info"; // 내 정보 페이지로 redirect 
+		} else { // 실패
+			message = "현재 비밀번호가 일치하지 않습니다";
+			path = "changePw"; // 비밀번호 변경 페이지로 redirect
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		// 현재 컨트롤러 메서드 매핑 주소 : /myPage/changePw (POST)
+		// 리다이렉트 주소 : (제일 앞에 슬래시 시작 안 하면 상대 경로로 작성한 거니까)
+		// 										/myPage/info  ,  /myPage/changePw (GET) 리다이렉트는 무조건 GET
+		return "redirect:" + path; // 상대경로
+	}
+	
+	
+	/**
+	 * 회원 탈퇴 페이지로 전환
+	 * @return
+	 */
+	@GetMapping("secession")
+	public String secession() {
+		return "myPage/myPage-secession";
+	}
+	
+	
+	/**
+	 * 회원 탈퇴 수행
+	 * @param memberPw : 입력된 비밀번호 (현재 비밀번호 일치)
+	 * @param loginMember : 로그인한 회원 정보 (session에서 얻어오기)
+	 * @param ra : 리다이렉트 시 request scope 데이터를 잠시 session에 전달
+	 * @param status : @SessinAtrrtibute 로 관리되는 세션 데이터 상태 제어 (세선 만료 가능)
+	 * @return
+	 */
+	@PostMapping("secession")
+	public String secession(
+			@RequestParam("memberPw") String memberPw,
+			@SessionAttribute("loginMember") Member loginMember,
+			RedirectAttributes ra,
+			SessionStatus status			// 맨 위로 올라가면 관리되는 세션 확인 가능
+			) {
+		
+		// 서비스 호출 후 결과 반환 받기
+		int result = service.secession(memberPw, loginMember);
+		
+		String message = null;
+		String path = null;
+		
+		// 결과에 따른 응답 제어
+		if(result > 0) {
+			message = "탈퇴 처리 되었습니다";
+			path = "/";  // 메인페이지로 리다이렉트
+			status.setComplete(); // 세션 만료 -> 현재 로그인 상태를 로그아웃으로
+		} else { // 실패
+			message = "현재 비밀번호가 일치하지 않습니다";
+			path = "secession"; // 현재 페이지(탈퇴) 리다이렉트
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:" + path;
+	}
+	
+	
 
  }//end
