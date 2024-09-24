@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -108,6 +110,78 @@ public class MemberController {
 		status.setComplete();
 		
 		return "redirect:/"; // 메인 페이지
+	}
+	
+	// ----------------------------------------------------------------
+	
+	/**
+	 * 회원 가입 페이지 전환
+	 * @return
+	 */
+	@GetMapping("signUp")
+	public String signUp() {
+		return "member/signUp";
+	}
+	
+	
+	/**
+	 * 회원가입 수행
+	 * @param inputMember : 입력값이 저장된 Member객체 == 커맨드 객체
+	 * @param ra : 리다이렉트 시 request scope로 값 전달 객체
+	 * @return
+	 */
+	@PostMapping("signUp")
+	public String signUp(
+			@ModelAttribute Member inputMember,
+			RedirectAttributes ra
+			) {
+		
+		// 바로 회원가입 서비스 호출
+		int result = service.signUp(inputMember);
+		
+		// 서비스 결과에 따라 응답 제어
+		String path = null;
+		String message = null;
+		
+		if(result > 0) {
+			path = "/";
+			message 
+				= inputMember.getMemberNickname() + "님의 가입을 환영합니다";
+		} else {
+			path = "signUp";
+			message = "회원 가입 실패...";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		return "redirect:" + path;
+	}
+	
+	
+	/**
+	 * 이메일 중복 검사 (비동기)
+	 * @param email : 입력된 이메일
+	 * @return 0 이면 중복 아님, 1이면 중복
+	 */
+	@ResponseBody // 반환 값을 응답 본문(ajax코드)으로 돌려보내줌
+	@GetMapping("emailCheck")
+	public int emailCheck(
+			@RequestParam("email") String email) {
+		
+		return service.emailCheck(email);
+	}
+	
+	
+	/**
+	 * 닉네임 중복 검사
+	 * @param nick
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("nickCheck")
+	public int nickCheck(
+			@RequestParam("nick") String nick) {
+		
+		return service.nickCheck(nick);
 	}
 	
 	
