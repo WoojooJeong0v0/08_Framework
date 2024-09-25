@@ -221,9 +221,9 @@ updateInfo?.addEventListener("submit", e => {
   }
 
   // empty, notempty 중 3이 하나도 없을 경우
-   if(empty !== 3 && notEmpty !== 3){ 
+   if(empty < 3 && notEmpty < 3){ 
     // if( empty < 3 && notEmpty < 3 ){
-    alert("주소가 유효하지 않습니다")
+    alert("주소가 유효하지 않습니다");
     e.preventDefault();
     return;
    }
