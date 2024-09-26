@@ -94,17 +94,86 @@ fetch("/selectMemberList")
       loginBtn.innerText = "로그인";
       th4.append(loginBtn);
 
+      // 만약 탈퇴상태인 경우 로그인 버튼 비활성화 시키기
+      if(member.memberDelFl === 'Y'){
+        loginBtn.disabled = true;
+      } else {
+        // 탈퇴 상태가 아닌 경우
+        // 만들어진 loginBtn 에 클릭 이벤트 추가
+        loginBtn.addEventListener("click", () => {
+
+          // body 태그 제일 마지막에 form 태그 추가해서
+          // 제출하는 형식으로 코드 작성
+          // 왜인가? > POST 방식 요청을 하고 싶기 때문에!
+          
+          const form = document.createElement("form");
+          form.action = "/directLogin";
+          form.method = "POST";
+
+          const input = document.createElement("input"); // form에 들어갈 input
+          input.type = "hidden";
+          input.name = "memberNo";
+          input.value = member.memberNo; // 클릭할 때마다 value가 달라진 input들 제출
+
+          form.append(input); // form 자식으로 input을 추가함
+          // body 자식으로 form을 추가
+          document.querySelector("body").append(form);
+          form.submit(); // 제출 
+        })
+      }
+
+
       // th > button 만들어서 "x" 글자 세팅
       const th5 = document.createElement("th");
       const initBtn = document.createElement("button");
       initBtn.innerText = "비밀번호 초기화";
       th5.append(initBtn);
 
+      /* 직접 작성한 부분 */
+      // 만들어진 initBtn 에 클릭 이벤트 추가
+      initBtn.addEventListener("click", () => {
+
+        fetch("/resetPw", 
+        {
+          method : "POST",
+          headers : {"Content-Type" : "application/json"},
+          body : member.memberNo // 값을 하나만 넘기는 거니까 요렇게
+          // body에 담아서 보낼 거다!
+          })
+        .then(response => {
+          if(response.ok) return response.text();
+          throw new Error("수정 에러");
+        })
+        .then(result => {
+          if (result>0)  alert("비밀번호가 초기화 되었습니다")
+        })
+        .catch(err => console.error(err));
+      }) // 여기까지 직접 작성
+    
+
       // th > button 만들어서 "탈퇴 상태 변경태 변경" 글자 세팅
       const th6 = document.createElement("th");
       const changeBtn = document.createElement("button");
       changeBtn.innerText = "탈퇴 상태 변경";
       th6.append(changeBtn);
+
+      changeBtn.addEventListener("click", () => {
+        fetch("/changeStatus", {
+          method : "PUT",
+          headers : {"Content-Type" : "application/json"},
+          body : member.memberNo
+        })
+        .then(response => {
+          if(response.ok) return response.text();
+          throw new Error("변경 실패");
+        })
+        .then(result => {
+          if(result > 0) {
+          selectMemberList();
+          }
+        })
+        .catch(err => console.error(err));
+      }); // 직접 작성
 
       // tr에 만든 th,td 모두 추가
       tr.append(th1, td2, th3, th4, th5, th6);
@@ -116,4 +185,14 @@ fetch("/selectMemberList")
 })
 .catch(err => console.error(err));
 
+// Get - select 
+// POST - insert
+// PUT - update
+// Delete - delete 형식으로 기억해 두면 편하다!
+
 }
+
+/* 페이지 로딩 (렌더링) 작업이 끝났을 때 수행한다 */
+document.addEventListener("DOMContentLoaded", () => {
+  selectMemberList();
+})

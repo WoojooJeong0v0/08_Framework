@@ -1,0 +1,27 @@
+package edu.kh.project.fileUpload.service;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import edu.kh.project.fileUpload.dto.FileDto;
+
+public interface FileUploadService {
+
+	
+	/**
+	 * 단일 파일 업로드
+	 * @param uploadFile
+	 * @return filePath
+	 */
+	String test1(MultipartFile uploadFile) throws IllegalStateException, IOException;
+
+	
+	/**
+	 * 파일업로드 메인가면 리스트 출력
+	 * @return  fileList
+	 */
+	List<FileDto> selectFileList();
+
+}

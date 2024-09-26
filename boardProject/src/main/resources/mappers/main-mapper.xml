@@ -24,5 +24,45 @@ namespace 속성 값으로 Mapper 인터페이스의 패키지명 + 인터페이
 	 WHERE MEMBER_NO > 0
 	 ORDER BY MEMBER_NO ASC
 	 </select>
+	 
+	 
+	 <!-- 빠른 로그인 -->
+	 <select id="directLogin" resultType="Member">
+	   	SELECT 
+	  	MEMBER_NO, 
+	  	MEMBER_EMAIL, 
+	  	MEMBER_NICKNAME, 
+	  	MEMBER_PW,
+		MEMBER_TEL, 
+		MEMBER_ADDRESS, 
+		PROFILE_IMG, 
+		AUTHORITY,
+		TO_CHAR(ENROLL_DATE, 
+			'YYYY"년" MM"월" DD"일" HH24"시" MI"분" SS"초"') ENROLL_DATE
+	FROM "MEMBER"
+	WHERE MEMBER_NO = #{memberNo}
+	AND   MEMBER_DEL_FL = 'N'
+	 </select>
+	 
+	 
+	 <!-- 비밀번호 초기화  -->
+	 <update id="resetPw">
+	 UPDATE "MEMBER"
+	 SET
+	 	MEMBER_PW = #{pw} // 오류 아니라 맞춤법
+	 WHERE 
+		MEMBER_NO = #{no}
+	 </update>
+	 
+	 
+	 <!-- 회원탈퇴 상태 변경 -->
+	 
+	<update id="changeStatus">
+	 UPDATE "MEMBER"
+	 SET
+	 	MEMBER_DEL_FL = DECODE(MEMBER_DEL_FL, 'Y','N','Y')
+	 WHERE 
+		MEMBER_NO = #{memberNo}
+	 </update>
 
 </mapper>
