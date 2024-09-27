@@ -18,6 +18,14 @@
     a:active {
       color : green
     }
+
+    main{
+      padding: 20px;
+    }
+
+    hr{
+      margin: 40px 0;
+    }
   </style>
 
   <!-- templates/common/common.html 조각으로 추가 -->
@@ -75,6 +83,35 @@
     </div>
     
     <hr>
+
+    <h3>단일 파일 업로드 + 일반 데이터</h3>
+    <form action="/fileUpload/test2" 
+    method="POST"
+    enctype="multipart/form-data">
+
+    <input type="file" name="uploadFile">
+    <br>
+    서버에 저장되는 파일 이름 지정 : 
+    <input type="text" name="fileName">
+
+    <button>제출</button>
+
+    </form>
+
+    <hr>
+
+    <h3>단일 파일 업로드 + 사용자 정의 예외 이용한 예외처리</h3>
+
+    <form action="/fileUpload/test3"
+    method="post"
+    enctype="multipart/form-data">
+    <input type="file" name="uploadFile">
+    <button>제출</button>
+    
+    </form>
+
+    <hr>
+
     
     <h3>업로드된 파일 목록</h3>
 
@@ -93,10 +130,12 @@
         <th th:text="*{fileNo}">번호</th>
         <td th:text="*{fileOriginalName}">원본</td>
         <td>
-          <!-- download 속성 : 열리는 게 아니라 다운진행 -->
+          <!-- download 속성 : 열리는 게 아니라 다운진행
+            download = "파일명" : 다운로드 되는 파일의 이름을 지정 
+          -->
           <a th:href="|*{filePath}*{fileRename}|"
            th:text="*{fileRename}"
-           download>변경명</a>
+           th:download = "*{fileOriginalName}">변경명</a>
         </td>
         <td th:text="*{uploadDate}">날짜</td>
       </tr>

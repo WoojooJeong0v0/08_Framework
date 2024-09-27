@@ -24,4 +24,21 @@ public interface FileUploadService {
 	 */
 	List<FileDto> selectFileList();
 
+
+	/**
+	 * 업로드된 파일 원본명을 fileName으로 변환해서 저장하자
+	 * @param uploadFile
+	 * @param fileName
+	 * @return
+	 */
+	String test2(MultipartFile uploadFile, String fileName) throws IllegalStateException, IOException;
+
+
+	/**
+	 * 단일 파일 업로드 예외처리 다르게
+	 * @param uploadFile
+	 * @return
+	 */
+	String test3(MultipartFile uploadFile);
+
 }

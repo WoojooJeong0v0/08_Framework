@@ -50,6 +50,8 @@ public class FileUploadController {
 	 * 
 	 * 	문자열, 숫자 -> String
 	 *  파일 -> MultipartFile 인터페이스 구현 객체
+	 *  (임시 메모리, 임계값, 한 번에 몇 개 넘기는지 등 설정해줘야 함)
+	 *  fileConfig, config.properties 등에서 진행
 	 *  
 	 * 3) 컨트롤러 메서드 매개변수로 전달
 	 * 	(@RequestParam, @@ModelAttribute)
@@ -61,7 +63,7 @@ public class FileUploadController {
 	 */
 	@PostMapping("test1")
 	public String test1(
-			@RequestParam("uploadFile") MultipartFile uploadFile
+			@RequestParam("uploadFile") MultipartFile uploadFile // 임시저장된 파일을 참조하는 객체
 			) throws IllegalStateException, IOException {
 		
 		String filePath = service.test1(uploadFile) ;
@@ -70,5 +72,36 @@ public class FileUploadController {
 		return "redirect:main";
 	}
 	
+	
+	/**
+	 * 단일 파일 업로드2 + 일반 데이터
+	 * @param uploadFile : 업로드 되어 있는 임시저장된 파일을 참조하는 객체
+	 * @param fileName : 원본 이름으로 지정될 파일 명
+	 * @return
+	 */
+	@PostMapping("test2")
+	public String test2(
+			@RequestParam("fileName") String fileName,
+			@RequestParam("uploadFile") MultipartFile uploadFile // 업로드된 파일이 임시 저장되어 있으니 그걸 참조하는 객체
+			) throws IllegalStateException, IOException {
+		
+		String filePath = service.test2(uploadFile, fileName);
+		
+		log.debug("업로드된 파일 경로 : {}", filePath);
+				
+		return "redirect:main";
+	}
+	
+	
+	@PostMapping("test3")
+	public String test3(
+			@RequestParam("uploadFile") MultipartFile uploadFile) {
+		
+		String filePath = service.test3(uploadFile);
+		log.debug("업로드된 파일 경로 : {}", filePath);
+		return "redirect:main";
+	}
+	
+	
 
-}
+} // end
