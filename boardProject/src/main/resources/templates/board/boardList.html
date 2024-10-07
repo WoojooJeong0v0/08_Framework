@@ -56,6 +56,10 @@
                                 <td th:text="*{rnum}">게시글 번호</td>
                                 <td> 
                                    <!-- 썸네일 추가 예정 -->
+                                    <!-- 썸네일이 있을 경우 -->
+                                    <img th:if="*{thumbnail}"
+                                    th:src="*{thumbnail}"
+                                    class="list-thumbnail">
 
                                    <!-- 상세 조회 요청 주소 /board/{boardCode}/{boardNo} -->
                                     <!-- boardCode= 1 임시, 이후에 수정 예정 -->
