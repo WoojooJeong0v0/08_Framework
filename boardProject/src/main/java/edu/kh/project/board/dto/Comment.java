@@ -23,7 +23,7 @@ public class Comment {
 	private String commentDelFl;
 	private int memberNo;
 	private int boardNo;
-	private int parentCommentNo2;
+	private int parentCommentNo;
 	
 	/* 댓글에 포함될 작성자명, 작성자 프로필 */
 	private String memberNickname;
